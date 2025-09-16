@@ -9,6 +9,7 @@ This MCP server provides tools for:
 ### Repository Management
 - Get repository information
 - List repositories for users/organizations
+- Create new branches
 - Search repositories
 
 ### Issue Management
@@ -90,6 +91,7 @@ The server provides the following MCP tools:
 
 - `get_repo_info` - Get repository information
 - `list_repos` - List repositories
+- `create_branch` - Create a new branch in a repository
 - `create_issue` - Create a new issue
 - `list_issues` - List issues in a repository
 - `get_issue` - Get issue details
@@ -102,6 +104,42 @@ The server provides the following MCP tools:
 - `create_or_update_file` - Create or update files
 - `search_repos` - Search repositories
 - `search_issues` - Search issues and pull requests
+
+## Tool Examples
+
+### Create Branch Tool
+
+The `create_branch` tool allows you to create a new branch in a GitHub repository:
+
+**Parameters:**
+- `owner` (required): Repository owner (username or organization)
+- `repo` (required): Repository name
+- `branch` (required): Name of the new branch to create
+- `base_branch` (optional): Base branch to create from (defaults to "main")
+
+**Example usage:**
+```json
+{
+  "name": "create_branch",
+  "arguments": {
+    "owner": "octocat",
+    "repo": "Hello-World",
+    "branch": "feature/new-feature",
+    "base_branch": "main"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "ref": "refs/heads/feature/new-feature",
+  "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+  "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature/new-feature",
+  "branch_name": "feature/new-feature",
+  "base_branch": "main"
+}
+```
 
 ## Project Structure
 

@@ -13,6 +13,7 @@ import dotenv from "dotenv";
 import {
   GetRepoInfoParamsSchema,
   ListReposParamsSchema,
+  CreateBranchParamsSchema,
   CreateIssueParamsSchema,
   ListIssuesParamsSchema,
   GetIssueParamsSchema,
@@ -31,6 +32,7 @@ import {
 import {
   getRepoInfo,
   listRepos,
+  createBranch,
   createIssue,
   listIssues,
   getIssue,
@@ -127,6 +129,33 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
               default: 1,
             },
           },
+        },
+      },
+      {
+        name: "create_branch",
+        description: "Create a new branch in a repository",
+        inputSchema: {
+          type: "object",
+          properties: {
+            owner: {
+              type: "string",
+              description: "Repository owner (username or organization)",
+            },
+            repo: {
+              type: "string",
+              description: "Repository name",
+            },
+            branch: {
+              type: "string",
+              description: "Name of the new branch to create",
+            },
+            base_branch: {
+              type: "string",
+              description: "Base branch to create from (defaults to 'main')",
+              default: "main",
+            },
+          },
+          required: ["owner", "repo", "branch"],
         },
       },
       // Issue tools
@@ -588,6 +617,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
       case "list_repos": {
         const params = ListReposParamsSchema.parse(args);
         const result = await listRepos(params);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(result, null, 2),
+            },
+          ],
+        };
+      }
+
+      case "create_branch": {
+        const params = CreateBranchParamsSchema.parse(args);
+        const result = await createBranch(params);
         return {
           content: [
             {

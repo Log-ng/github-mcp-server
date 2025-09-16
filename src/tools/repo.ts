@@ -50,3 +50,35 @@ export async function listRepos(params: {
     throw new Error(`Error listing repos: ${(error as Error).message}`);
   }
 }
+
+export async function createBranch(params: {
+  owner: string;
+  repo: string;
+  branch: string;
+  base_branch?: string;
+}) {
+  try {
+    const { data: baseBranchData } = await octokit.repos.getBranch({
+      owner: params.owner,
+      repo: params.repo,
+      branch: params.base_branch || "main",
+    });
+
+    const { data } = await octokit.git.createRef({
+      owner: params.owner,
+      repo: params.repo,
+      ref: `refs/heads/${params.branch}`,
+      sha: baseBranchData.commit.sha,
+    });
+
+    return {
+      ref: data.ref,
+      sha: data.object.sha,
+      url: data.url,
+      branch_name: params.branch,
+      base_branch: params.base_branch || "main",
+    };
+  } catch (error) {
+    throw new Error(`Error creating branch: ${(error as Error).message}`);
+  }
+}

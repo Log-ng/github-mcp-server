@@ -13,3 +13,10 @@ export const ListReposParamsSchema = z.object({
   per_page: z.number().min(1).max(100).default(30),
   page: z.number().min(1).default(1),
 });
+
+export const CreateBranchParamsSchema = z.object({
+  owner: z.string().min(1),
+  repo: z.string().min(1),
+  branch: z.string().min(1),
+  base_branch: z.string().min(1).default("main"),
+});
