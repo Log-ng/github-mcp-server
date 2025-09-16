@@ -1,0 +1,101 @@
+import { octokit } from "./common.js";
+
+export async function createPullRequest(params: {
+  owner: string;
+  repo: string;
+  title: string;
+  head: string;
+  base: string;
+  body?: string;
+  draft?: boolean;
+}) {
+  try {
+    const { data } = await octokit.pulls.create({
+      owner: params.owner,
+      repo: params.repo,
+      title: params.title,
+      head: params.head,
+      base: params.base,
+      body: params.body,
+      draft: params.draft || false,
+    });
+    return {
+      number: data.number,
+      title: data.title,
+      state: data.state,
+      url: data.html_url,
+      head: data.head.ref,
+      base: data.base.ref,
+    };
+  } catch (error) {
+    throw new Error(`Error creating pull request: ${(error as Error).message}`);
+  }
+}
+
+export async function listPullRequests(params: {
+  owner: string;
+  repo: string;
+  state?: "open" | "closed" | "all";
+  head?: string;
+  base?: string;
+  sort?: "created" | "updated" | "popularity" | "long-running";
+  direction?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}) {
+  try {
+    const { data } = await octokit.pulls.list({
+      owner: params.owner,
+      repo: params.repo,
+      state: params.state || "open",
+      head: params.head,
+      base: params.base,
+      sort: params.sort || "created",
+      direction: params.direction || "desc",
+      per_page: params.per_page || 30,
+      page: params.page || 1,
+    });
+    return data.map(pr => ({
+      number: pr.number,
+      title: pr.title,
+      state: pr.state,
+      url: pr.html_url,
+      head: pr.head.ref,
+      base: pr.base.ref,
+      created_at: pr.created_at,
+      updated_at: pr.updated_at,
+      user: pr.user?.login,
+    }));
+  } catch (error) {
+    throw new Error(`Error listing pull requests: ${(error as Error).message}`);
+  }
+}
+
+export async function getPullRequest(params: {
+  owner: string;
+  repo: string;
+  pull_number: number;
+}) {
+  try {
+    const { data } = await octokit.pulls.get({
+      owner: params.owner,
+      repo: params.repo,
+      pull_number: params.pull_number,
+    });
+    return {
+      number: data.number,
+      title: data.title,
+      body: data.body,
+      state: data.state,
+      url: data.html_url,
+      head: data.head.ref,
+      base: data.base.ref,
+      created_at: data.created_at,
+      updated_at: data.updated_at,
+      user: data.user?.login,
+      mergeable: data.mergeable,
+    };
+  } catch (error) {
+    throw new Error(`Error getting pull request: ${(error as Error).message}`);
+  }
+}

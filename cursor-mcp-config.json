@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "cwd": "/Users/l002591/Desktop/my_github_mcp/github-mcp-server",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
