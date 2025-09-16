@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
@@ -9,7 +7,6 @@ import {
 import { z } from "zod";
 import dotenv from "dotenv";
 
-// Import schemas
 import {
   GetRepoInfoParamsSchema,
   ListReposParamsSchema,
@@ -28,7 +25,6 @@ import {
   SearchIssuesParamsSchema,
 } from "./schemas/index.js";
 
-// Import GitHub services
 import {
   getRepoInfo,
   listRepos,
@@ -49,7 +45,6 @@ import {
 
 dotenv.config();
 
-// Check for required environment variables
 if (!process.env.GITHUB_TOKEN) {
   console.error("Error: GITHUB_TOKEN environment variable is required");
   process.exit(1);
@@ -67,11 +62,9 @@ const server = new Server(
   }
 );
 
-// List available tools
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
-      // Repository tools
       {
         name: "get_repo_info",
         description: "Get information about a GitHub repository",
@@ -158,7 +151,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ["owner", "repo", "branch"],
         },
       },
-      // Issue tools
       {
         name: "create_issue",
         description: "Create a new issue in a repository",
@@ -267,7 +259,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ["owner", "repo", "issue_number"],
         },
       },
-      // Pull Request tools
       {
         name: "create_pull_request",
         description: "Create a new pull request",
@@ -383,7 +374,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ["owner", "repo", "pull_number"],
         },
       },
-      // Commit tools
       {
         name: "list_commits",
         description: "List commits in a repository",
@@ -454,7 +444,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ["owner", "repo", "ref"],
         },
       },
-      // File tools
       {
         name: "get_file_content",
         description: "Get the contents of a file or directory",
@@ -519,7 +508,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ["owner", "repo", "path", "message", "content"],
         },
       },
-      // Search tools
       {
         name: "search_repos",
         description: "Search for repositories",
@@ -594,13 +582,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   };
 });
 
-// Handle tool calls
 server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
   const { name, arguments: args } = request.params;
 
   try {
     switch (name) {
-      // Repository tools
       case "get_repo_info": {
         const params = GetRepoInfoParamsSchema.parse(args);
         const result = await getRepoInfo(params.owner, params.repo);
@@ -640,7 +626,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
         };
       }
 
-      // Issue tools
       case "create_issue": {
         const params = CreateIssueParamsSchema.parse(args);
         const result = await createIssue(params);
@@ -680,7 +665,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
         };
       }
 
-      // Pull Request tools
       case "create_pull_request": {
         const params = CreatePullRequestParamsSchema.parse(args);
         const result = await createPullRequest(params);
@@ -720,7 +704,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
         };
       }
 
-      // Commit tools
       case "list_commits": {
         const params = ListCommitsParamsSchema.parse(args);
         const result = await listCommits(params);
@@ -747,7 +730,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
         };
       }
 
-      // File tools
       case "get_file_content": {
         const params = GetFileContentParamsSchema.parse(args);
         const result = await getFileContent(params);
@@ -774,7 +756,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
         };
       }
 
-      // Search tools
       case "search_repos": {
         const params = SearchReposParamsSchema.parse(args);
         const result = await searchRepos(params);
@@ -818,7 +799,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
   }
 });
 
-// Start the server
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);

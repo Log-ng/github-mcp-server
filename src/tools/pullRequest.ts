@@ -1,6 +1,6 @@
 import { octokit } from "./common.js";
 
-export async function createPullRequest(params: {
+export const createPullRequest = async (params: {
   owner: string;
   repo: string;
   title: string;
@@ -8,7 +8,7 @@ export async function createPullRequest(params: {
   base: string;
   body?: string;
   draft?: boolean;
-}) {
+}) => {
   try {
     const { data } = await octokit.pulls.create({
       owner: params.owner,
@@ -32,7 +32,7 @@ export async function createPullRequest(params: {
   }
 }
 
-export async function listPullRequests(params: {
+export const listPullRequests = async (params: {
   owner: string;
   repo: string;
   state?: "open" | "closed" | "all";
@@ -42,7 +42,7 @@ export async function listPullRequests(params: {
   direction?: "asc" | "desc";
   per_page?: number;
   page?: number;
-}) {
+}) => {
   try {
     const { data } = await octokit.pulls.list({
       owner: params.owner,
@@ -71,11 +71,11 @@ export async function listPullRequests(params: {
   }
 }
 
-export async function getPullRequest(params: {
+export const getPullRequest = async (params: {
   owner: string;
   repo: string;
   pull_number: number;
-}) {
+}) => {
   try {
     const { data } = await octokit.pulls.get({
       owner: params.owner,
