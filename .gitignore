@@ -127,4 +127,5 @@ Thumbs.db
 *.mcp.log
 
 .cursor/*
+cursor-mcp-config.json
 
