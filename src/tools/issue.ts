@@ -1,13 +1,13 @@
 import { octokit } from "./common.js";
 
-export async function createIssue(params: {
+export const createIssue = async (params: {
   owner: string;
   repo: string;
   title: string;
   body?: string;
   labels?: string[];
   assignees?: string[];
-}) {
+}) => {
   try {
     const { data } = await octokit.issues.create({
       owner: params.owner,
@@ -29,7 +29,7 @@ export async function createIssue(params: {
   }
 }
 
-export async function listIssues(params: {
+export const listIssues = async (params: {
   owner: string;
   repo: string;
   state?: "open" | "closed" | "all";
@@ -38,7 +38,7 @@ export async function listIssues(params: {
   direction?: "asc" | "desc";
   per_page?: number;
   page?: number;
-}) {
+}) => {
   try {
     const { data } = await octokit.issues.listForRepo({
       owner: params.owner,
@@ -65,11 +65,11 @@ export async function listIssues(params: {
   }
 }
 
-export async function getIssue(params: {
+export const getIssue = async (params: {
   owner: string;
   repo: string;
   issue_number: number;
-}) {
+}) => {
   try {
     const { data } = await octokit.issues.get({
       owner: params.owner,

@@ -1,11 +1,11 @@
 import { octokit } from "./common.js";
 
-export async function getFileContent(params: {
+export const getFileContent = async (params: {
   owner: string;
   repo: string;
   path: string;
   ref?: string;
-}) {
+}) => {
   try {
     const { data } = await octokit.repos.getContent({
       owner: params.owner,
@@ -37,7 +37,7 @@ export async function getFileContent(params: {
   }
 }
 
-export async function createOrUpdateFile(params: {
+export const createOrUpdateFile = async(params: {
   owner: string;
   repo: string;
   path: string;
@@ -45,7 +45,7 @@ export async function createOrUpdateFile(params: {
   content: string;
   branch?: string;
   sha?: string;
-}) {
+}) => {
   try {
     const { data } = await octokit.repos.createOrUpdateFileContents({
       owner: params.owner,

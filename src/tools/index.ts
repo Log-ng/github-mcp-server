@@ -1,4 +1,3 @@
-// Export all services from a single entry point
 export * from "./common.js";
 export * from "./repo.js";
 export * from "./issue.js";
