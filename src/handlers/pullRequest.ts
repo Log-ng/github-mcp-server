@@ -1,5 +1,5 @@
 import { CreatePullRequestParamsSchema, ListPullRequestsParamsSchema, GetPullRequestParamsSchema } from "../schemas/index.js";
-import { createPullRequest, listPullRequests, getPullRequest } from "../tools/index.js";
+import { createPullRequest, listPullRequests, getPullRequest } from "../services/index.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
 

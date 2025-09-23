@@ -1,5 +1,5 @@
 import { GetFileContentParamsSchema, CreateOrUpdateFileParamsSchema } from "../schemas/index.js";
-import { getFileContent, createOrUpdateFile } from "../tools/index.js";
+import { getFileContent, createOrUpdateFile } from "../services/index.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
 

@@ -1,5 +1,5 @@
 import { ListCommitsParamsSchema, GetCommitParamsSchema } from "../schemas/index.js";
-import { listCommits, getCommit } from "../tools/index.js";
+import { listCommits, getCommit } from "../services/index.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
 

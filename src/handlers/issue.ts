@@ -1,5 +1,5 @@
 import { CreateIssueParamsSchema, ListIssuesParamsSchema, GetIssueParamsSchema } from "../schemas/index.js";
-import { createIssue, listIssues, getIssue } from "../tools/index.js";
+import { createIssue, listIssues, getIssue } from "../services/index.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
 

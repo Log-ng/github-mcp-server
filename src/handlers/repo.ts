@@ -1,5 +1,5 @@
 import { GetRepoInfoParamsSchema, ListReposParamsSchema, CreateBranchParamsSchema } from "../schemas/index.js";
-import { getRepoInfo, listRepos, createBranch } from "../tools/index.js";
+import { getRepoInfo, listRepos, createBranch } from "../services/index.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
 
