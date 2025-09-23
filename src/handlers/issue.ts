@@ -1,7 +1,8 @@
 import { CreateIssueParamsSchema, ListIssuesParamsSchema, GetIssueParamsSchema } from "../schemas/index.js";
 import { createIssue, listIssues, getIssue } from "../services/index.js";
-
-export type HandlerFunction = (args: unknown) => Promise<any>;
+import { createSuccessResponse, handleError } from "../utils/index.js";
+import { HandlerFunction } from "../types/index.js";
+import { logger } from "../utils/logger.js";
 
 export interface CreateIssueArgs {
   owner: string;
@@ -31,42 +32,57 @@ export interface GetIssueArgs {
 
 export const issueHandlers: Record<string, HandlerFunction> = {
   create_issue: async (args: unknown) => {
-    const params = CreateIssueParamsSchema.parse(args) as CreateIssueArgs;
-    const result = await createIssue(params);
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
+    const startTime = Date.now();
+    logger.handlerStart('create_issue', args);
+    
+    try {
+      const params = CreateIssueParamsSchema.parse(args) as CreateIssueArgs;
+      const result = await createIssue(params);
+      
+      const duration = Date.now() - startTime;
+      logger.handlerSuccess('create_issue', duration);
+      return createSuccessResponse(result);
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      logger.handlerError('create_issue', error as Error, duration);
+      return handleError(error);
+    }
   },
 
   list_issues: async (args: unknown) => {
-    const params = ListIssuesParamsSchema.parse(args) as ListIssuesArgs;
-    const result = await listIssues(params);
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
+    const startTime = Date.now();
+    logger.handlerStart('list_issues', args);
+    
+    try {
+      const params = ListIssuesParamsSchema.parse(args) as ListIssuesArgs;
+      const result = await listIssues(params);
+      
+      const duration = Date.now() - startTime;
+      logger.handlerSuccess('list_issues', duration);
+      return createSuccessResponse(result);
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      logger.handlerError('list_issues', error as Error, duration);
+      return handleError(error);
+    }
   },
 
   get_issue: async (args: unknown) => {
-    const params = GetIssueParamsSchema.parse(args) as GetIssueArgs;
-    const result = await getIssue(params);
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
+    const startTime = Date.now();
+    logger.handlerStart('get_issue', args);
+    
+    try {
+      const params = GetIssueParamsSchema.parse(args) as GetIssueArgs;
+      const result = await getIssue(params);
+      
+      const duration = Date.now() - startTime;
+      logger.handlerSuccess('get_issue', duration);
+      return createSuccessResponse(result);
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      logger.handlerError('get_issue', error as Error, duration);
+      return handleError(error);
+    }
   },
 };
 

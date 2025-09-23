@@ -1,4 +1,5 @@
-import { repoHandlers, repoToolDefinitions, HandlerFunction } from "./repo.js";
+import { repoHandlers, repoToolDefinitions } from "./repo.js";
+import { HandlerFunction } from "../types/index.js";
 import { issueHandlers, issueToolDefinitions } from "./issue.js";
 import { pullRequestHandlers, pullRequestToolDefinitions } from "./pullRequest.js";
 import { commitHandlers, commitToolDefinitions } from "./commit.js";
