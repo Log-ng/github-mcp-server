@@ -1,12 +1,7 @@
 import { octokit } from "./common.js";
+import { SearchReposArgs, SearchIssuesArgs } from "../handlers/search.js";
 
-export const searchRepos = async (params: {
-  q: string;
-  sort?: "stars" | "forks" | "help-wanted-issues" | "updated";
-  order?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}) => {
+export const searchRepos = async (params: SearchReposArgs) => {
   try {
     const { data } = await octokit.search.repos({
       q: params.q,
@@ -30,13 +25,7 @@ export const searchRepos = async (params: {
   }
 }
 
-export const searchIssues = async (params: {
-  q: string;
-  sort?: "comments" | "reactions" | "reactions-+1" | "reactions--1" | "reactions-smile" | "reactions-thinking_face" | "reactions-heart" | "reactions-tada" | "interactions" | "created" | "updated";
-  order?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}) => {
+export const searchIssues = async (params: SearchIssuesArgs) => {
   try {
     const { data } = await octokit.search.issuesAndPullRequests({
       q: params.q,

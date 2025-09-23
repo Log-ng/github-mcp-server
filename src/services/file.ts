@@ -1,11 +1,7 @@
 import { octokit } from "./common.js";
+import { GetFileContentArgs, CreateOrUpdateFileArgs } from "../handlers/file.js";
 
-export const getFileContent = async (params: {
-  owner: string;
-  repo: string;
-  path: string;
-  ref?: string;
-}) => {
+export const getFileContent = async (params: GetFileContentArgs) => {
   try {
     const { data } = await octokit.repos.getContent({
       owner: params.owner,
@@ -37,15 +33,7 @@ export const getFileContent = async (params: {
   }
 }
 
-export const createOrUpdateFile = async(params: {
-  owner: string;
-  repo: string;
-  path: string;
-  message: string;
-  content: string;
-  branch?: string;
-  sha?: string;
-}) => {
+export const createOrUpdateFile = async(params: CreateOrUpdateFileArgs) => {
   try {
     const { data } = await octokit.repos.createOrUpdateFileContents({
       owner: params.owner,
