@@ -1,13 +1,7 @@
 import { octokit } from "./common.js";
+import { CreateIssueArgs, ListIssuesArgs, GetIssueArgs } from "../handlers/issue.js";
 
-export const createIssue = async (params: {
-  owner: string;
-  repo: string;
-  title: string;
-  body?: string;
-  labels?: string[];
-  assignees?: string[];
-}) => {
+export const createIssue = async (params: CreateIssueArgs) => {
   try {
     const { data } = await octokit.issues.create({
       owner: params.owner,
@@ -29,16 +23,7 @@ export const createIssue = async (params: {
   }
 }
 
-export const listIssues = async (params: {
-  owner: string;
-  repo: string;
-  state?: "open" | "closed" | "all";
-  labels?: string;
-  sort?: "created" | "updated" | "comments";
-  direction?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}) => {
+export const listIssues = async (params: ListIssuesArgs) => {
   try {
     const { data } = await octokit.issues.listForRepo({
       owner: params.owner,
@@ -65,11 +50,7 @@ export const listIssues = async (params: {
   }
 }
 
-export const getIssue = async (params: {
-  owner: string;
-  repo: string;
-  issue_number: number;
-}) => {
+export const getIssue = async (params: GetIssueArgs) => {
   try {
     const { data } = await octokit.issues.get({
       owner: params.owner,

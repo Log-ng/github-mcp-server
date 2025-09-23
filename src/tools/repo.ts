@@ -1,4 +1,5 @@
 import { octokit } from "./common.js";
+import { GetRepoInfoArgs, ListReposArgs, CreateBranchArgs } from "../handlers/repo.js";
 
 export const getRepoInfo = async (owner: string, repo: string) => {
   try {
@@ -19,14 +20,7 @@ export const getRepoInfo = async (owner: string, repo: string) => {
   }
 }
 
-export const listRepos = async (params: {
-  username?: string;
-  type?: "all" | "owner" | "public" | "private" | "member";
-  sort?: "created" | "updated" | "pushed" | "full_name";
-  direction?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}) => {
+export const listRepos = async (params: ListReposArgs) => {
   try {
     const { data } = await octokit.repos.listForUser({
       username: params.username || "",
@@ -51,12 +45,7 @@ export const listRepos = async (params: {
   }
 }
 
-export const createBranch = async (params: {
-  owner: string;
-  repo: string;
-  branch: string;
-  base_branch?: string;
-}) => {
+export const createBranch = async (params: CreateBranchArgs) => {
   try {
     const { data: baseBranchData } = await octokit.repos.getBranch({
       owner: params.owner,

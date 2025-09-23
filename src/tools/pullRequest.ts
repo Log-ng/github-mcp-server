@@ -1,14 +1,7 @@
 import { octokit } from "./common.js";
+import { CreatePullRequestArgs, ListPullRequestsArgs, GetPullRequestArgs } from "../handlers/pullRequest.js";
 
-export const createPullRequest = async (params: {
-  owner: string;
-  repo: string;
-  title: string;
-  head: string;
-  base: string;
-  body?: string;
-  draft?: boolean;
-}) => {
+export const createPullRequest = async (params: CreatePullRequestArgs) => {
   try {
     const { data } = await octokit.pulls.create({
       owner: params.owner,
@@ -32,17 +25,7 @@ export const createPullRequest = async (params: {
   }
 }
 
-export const listPullRequests = async (params: {
-  owner: string;
-  repo: string;
-  state?: "open" | "closed" | "all";
-  head?: string;
-  base?: string;
-  sort?: "created" | "updated" | "popularity" | "long-running";
-  direction?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}) => {
+export const listPullRequests = async (params: ListPullRequestsArgs) => {
   try {
     const { data } = await octokit.pulls.list({
       owner: params.owner,
@@ -71,11 +54,7 @@ export const listPullRequests = async (params: {
   }
 }
 
-export const getPullRequest = async (params: {
-  owner: string;
-  repo: string;
-  pull_number: number;
-}) => {
+export const getPullRequest = async (params: GetPullRequestArgs) => {
   try {
     const { data } = await octokit.pulls.get({
       owner: params.owner,

@@ -1,16 +1,7 @@
 import { octokit } from "./common.js";
+import { ListCommitsArgs, GetCommitArgs } from "../handlers/commit.js";
 
-export const listCommits = async (params: {
-  owner: string;
-  repo: string;
-  sha?: string;
-  path?: string;
-  author?: string;
-  since?: string;
-  until?: string;
-  per_page?: number;
-  page?: number;
-}) => {
+export const listCommits = async (params: ListCommitsArgs) => {
   try {
     const { data } = await octokit.repos.listCommits({
       owner: params.owner,
@@ -35,11 +26,7 @@ export const listCommits = async (params: {
   }
 };
 
-export const getCommit = async (params: {
-  owner: string;
-  repo: string;
-  ref: string;
-}) => {
+export const getCommit = async (params: GetCommitArgs) => {
   try {
     const { data } = await octokit.repos.getCommit({
       owner: params.owner,
