@@ -1,7 +1,8 @@
 import { GetRepoInfoParamsSchema, ListReposParamsSchema, CreateBranchParamsSchema } from "../schemas/index.js";
 import { getRepoInfo, listRepos, createBranch } from "../services/index.js";
-
-export type HandlerFunction = (args: unknown) => Promise<any>;
+import { createSuccessResponse, handleError } from "../utils/index.js";
+import { HandlerFunction } from "../types/index.js";
+import { logger } from "../utils/logger.js";
 
 export interface GetRepoInfoArgs {
   owner: string;
@@ -26,42 +27,57 @@ export interface CreateBranchArgs {
 
 export const repoHandlers: Record<string, HandlerFunction> = {
   get_repo_info: async (args: unknown) => {
-    const params = GetRepoInfoParamsSchema.parse(args) as GetRepoInfoArgs;
-    const result = await getRepoInfo(params.owner, params.repo);
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
+    const startTime = Date.now();
+    logger.handlerStart('get_repo_info', args);
+    
+    try {
+      const params = GetRepoInfoParamsSchema.parse(args) as GetRepoInfoArgs;
+      const result = await getRepoInfo(params.owner, params.repo);
+      
+      const duration = Date.now() - startTime;
+      logger.handlerSuccess('get_repo_info', duration);
+      return createSuccessResponse(result);
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      logger.handlerError('get_repo_info', error as Error, duration);
+      return handleError(error);
+    }
   },
 
   list_repos: async (args: unknown) => {
-    const params = ListReposParamsSchema.parse(args) as ListReposArgs;
-    const result = await listRepos(params);
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
+    const startTime = Date.now();
+    logger.handlerStart('list_repos', args);
+    
+    try {
+      const params = ListReposParamsSchema.parse(args) as ListReposArgs;
+      const result = await listRepos(params);
+      
+      const duration = Date.now() - startTime;
+      logger.handlerSuccess('list_repos', duration);
+      return createSuccessResponse(result);
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      logger.handlerError('list_repos', error as Error, duration);
+      return handleError(error);
+    }
   },
 
   create_branch: async (args: unknown) => {
-    const params = CreateBranchParamsSchema.parse(args) as CreateBranchArgs;
-    const result = await createBranch(params);
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
+    const startTime = Date.now();
+    logger.handlerStart('create_branch', args);
+    
+    try {
+      const params = CreateBranchParamsSchema.parse(args) as CreateBranchArgs;
+      const result = await createBranch(params);
+      
+      const duration = Date.now() - startTime;
+      logger.handlerSuccess('create_branch', duration);
+      return createSuccessResponse(result);
+    } catch (error) {
+      const duration = Date.now() - startTime;
+      logger.handlerError('create_branch', error as Error, duration);
+      return handleError(error);
+    }
   },
 };
 

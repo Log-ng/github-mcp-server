@@ -1,6 +1,10 @@
 import { Octokit } from "@octokit/rest";
-import dotenv from "dotenv";
+import { githubConfig } from "../config/index.js";
 
-dotenv.config();
-
-export const octokit: Octokit = new Octokit({ auth: process.env["GITHUB_TOKEN"] as string });
+export const octokit: Octokit = new Octokit({
+  auth: githubConfig.auth,
+  userAgent: githubConfig.userAgent,
+  request: {
+    timeout: githubConfig.timeout,
+  },
+});

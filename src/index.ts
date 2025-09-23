@@ -4,26 +4,19 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import dotenv from "dotenv";
 
 import { allHandlers, allToolDefinitions } from "./handlers/index.js";
-
-dotenv.config();
-
-if (!process.env.GITHUB_TOKEN) {
-  console.error("Error: GITHUB_TOKEN environment variable is required");
-  process.exit(1);
-}
+import { serverConfig } from "./config/index.js";
+import { logger } from "./utils/logger.js";
+import { handleError } from "./utils/index.js";
 
 const server = new Server(
   {
-    name: "github-mcp-server",
-    version: "1.0.0",
+    name: serverConfig.name,
+    version: serverConfig.version,
   },
   {
-    capabilities: {
-      tools: {},
-    },
+    capabilities: serverConfig.capabilities,
   }
 );
 
@@ -35,35 +28,41 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
+  const startTime = Date.now();
 
   try {
+    logger.info(`Tool request: ${name}`, { args });
+    
     const handler = allHandlers[name];
     if (!handler) {
       throw new Error(`Unknown tool: ${name}`);
     }
     
-    return await handler(args);
+    const result = await handler(args);
+    
+    const duration = Date.now() - startTime;
+    logger.info(`Tool completed: ${name}`, { duration: `${duration}ms` });
+    
+    return result;
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    return {
-      content: [
-        {
-          type: "text",
-          text: `Error: ${errorMessage}`,
-        },
-      ],
-      isError: true,
-    };
+    const duration = Date.now() - startTime;
+    logger.error(`Tool failed: ${name}`, { error, duration: `${duration}ms` });
+    return handleError(error);
   }
 });
 
 const main = async () => {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error("GitHub MCP server running on stdio");
+  try {
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
+    logger.info("GitHub MCP server running on stdio");
+  } catch (error) {
+    logger.error("Failed to start server", { error });
+    throw error;
+  }
 }
 
 main().catch((error) => {
-  console.error("Fatal error in main():", error);
+  logger.error("Fatal error in main()", { error });
   process.exit(1);
 });

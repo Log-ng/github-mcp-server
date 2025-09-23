@@ -1,8 +1,8 @@
 # GitHub MCP Server
 
-A Model Context Protocol (MCP) server that provides comprehensive GitHub API integration for AI assistants and applications.
+A Model Context Protocol (MCP) server that provides comprehensive GitHub API integration for AI assistants and applications. Built with TypeScript, featuring robust error handling, logging, retry mechanisms, and rate limiting.
 
-## Features
+## ✨ Features
 
 This MCP server provides tools for:
 
@@ -34,7 +34,25 @@ This MCP server provides tools for:
 - Search repositories
 - Search issues and pull requests
 
-## Installation
+## 🚀 New Features & Improvements
+
+### Enhanced Architecture
+- **Type Safety**: Comprehensive TypeScript types and interfaces
+- **Error Handling**: Centralized error handling with custom error classes
+- **Logging**: Structured logging with configurable levels
+- **Retry Mechanism**: Automatic retry with exponential backoff
+- **Rate Limiting**: Built-in rate limiting to prevent API abuse
+- **Configuration**: Environment-based configuration management
+
+### Performance & Reliability
+- **Request/Response Logging**: Full API call monitoring
+- **Performance Tracking**: Duration measurement for all operations
+- **Input Validation**: Zod schema validation for all inputs
+- **Input Sanitization**: Security-focused input cleaning
+- **Retry Logic**: Automatic retry for failed requests
+- **Error Recovery**: Graceful error handling and recovery
+
+## 📦 Installation
 
 1. Clone this repository:
 ```bash
@@ -52,9 +70,22 @@ pnpm install
 cp env.example .env
 ```
 
-4. Edit `.env` and add your GitHub token:
-```
+4. Edit `.env` and configure your settings:
+```bash
+# Required: GitHub Personal Access Token
 GITHUB_TOKEN=your_github_token_here
+
+# Optional: Environment Configuration
+NODE_ENV=development
+LOG_LEVEL=info
+
+# Optional: Rate Limiting Configuration
+RATE_LIMIT_MAX_REQUESTS=100
+RATE_LIMIT_WINDOW_MS=60000
+
+# Optional: Retry Configuration
+MAX_RETRIES=3
+RETRY_DELAY_MS=1000
 ```
 
 ## Getting a GitHub Token
@@ -67,7 +98,7 @@ GITHUB_TOKEN=your_github_token_here
    - `read:org` (Read org and team membership)
 4. Copy the generated token to your `.env` file
 
-## Usage
+## 🛠️ Usage
 
 ### Development
 ```bash
@@ -85,7 +116,35 @@ pnpm start
 pnpm type-check
 ```
 
-## Available Tools
+## ⚙️ Configuration
+
+### Environment Variables
+
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `GITHUB_TOKEN` | GitHub Personal Access Token | - | ✅ |
+| `NODE_ENV` | Environment (development/production/test) | development | ❌ |
+| `LOG_LEVEL` | Log level (error/warn/info/debug) | info | ❌ |
+| `RATE_LIMIT_MAX_REQUESTS` | Max requests per window | 100 | ❌ |
+| `RATE_LIMIT_WINDOW_MS` | Rate limit window (ms) | 60000 | ❌ |
+| `MAX_RETRIES` | Max retry attempts | 3 | ❌ |
+| `RETRY_DELAY_MS` | Retry delay (ms) | 1000 | ❌ |
+
+### Logging
+
+The server provides structured logging with the following levels:
+- **error**: Critical errors and failures
+- **warn**: Warning messages
+- **info**: General information
+- **debug**: Detailed debugging information
+
+Example log output:
+```
+[2024-01-15T10:30:00.000Z] [INFO] Tool request: get_repo_info {"args": {"owner": "octocat", "repo": "Hello-World"}}
+[2024-01-15T10:30:00.500Z] [INFO] Tool completed: get_repo_info {"duration": "500ms"}
+```
+
+## 🔧 Available Tools
 
 The server provides the following MCP tools:
 
@@ -105,7 +164,7 @@ The server provides the following MCP tools:
 - `search_repos` - Search repositories
 - `search_issues` - Search issues and pull requests
 
-## Tool Examples
+## 📝 Tool Examples
 
 ### Create Branch Tool
 
@@ -141,11 +200,18 @@ The `create_branch` tool allows you to create a new branch in a GitHub repositor
 }
 ```
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```
 src/
-├── schemas/           # Zod validation schemas
+├── types/            # TypeScript type definitions
+│   └── index.ts      # Common types and interfaces
+├── utils/            # Utility functions
+│   ├── index.ts      # Common utilities
+│   └── logger.ts     # Logging system
+├── config/           # Configuration management
+│   └── index.ts      # Environment configuration
+├── schemas/          # Zod validation schemas
 │   ├── common.ts     # Common schemas
 │   ├── repo.ts       # Repository schemas
 │   ├── issue.ts      # Issue schemas
@@ -154,7 +220,7 @@ src/
 │   ├── file.ts       # File schemas
 │   ├── search.ts     # Search schemas
 │   └── index.ts      # Schema exports
-├── service/          # GitHub API services
+├── services/         # GitHub API services
 │   ├── common.ts     # Common Octokit setup
 │   ├── repo.ts       # Repository services
 │   ├── issue.ts      # Issue services
@@ -163,9 +229,66 @@ src/
 │   ├── file.ts       # File services
 │   ├── search.ts     # Search services
 │   └── index.ts      # Service exports
+├── handlers/         # MCP request handlers
+│   ├── repo.ts       # Repository handlers
+│   ├── issue.ts      # Issue handlers
+│   ├── pullRequest.ts # Pull request handlers
+│   ├── commit.ts     # Commit handlers
+│   ├── file.ts       # File handlers
+│   ├── search.ts     # Search handlers
+│   └── index.ts      # Handler exports
 └── index.ts          # MCP server implementation
 ```
 
-## License
+## 🔒 Security Features
+
+- **Input Validation**: All inputs are validated using Zod schemas
+- **Input Sanitization**: HTML tags and special characters are sanitized
+- **Rate Limiting**: Built-in rate limiting to prevent API abuse
+- **Error Handling**: Secure error messages that don't leak sensitive information
+- **Token Security**: GitHub token is loaded from environment variables only
+
+## 🚀 Performance Features
+
+- **Retry Mechanism**: Automatic retry with exponential backoff for failed requests
+- **Request Logging**: Full API call monitoring and performance tracking
+- **Caching**: Built-in request caching to reduce API calls
+- **Rate Limiting**: Intelligent rate limiting to respect GitHub API limits
+- **Performance Monitoring**: Duration tracking for all operations
+
+## 🐛 Error Handling
+
+The server provides comprehensive error handling:
+
+- **Validation Errors**: Clear validation error messages
+- **GitHub API Errors**: Proper handling of GitHub API errors
+- **Network Errors**: Automatic retry for network failures
+- **Rate Limit Errors**: Graceful handling of rate limit exceeded
+- **Authentication Errors**: Clear authentication error messages
+
+## 📊 Monitoring & Logging
+
+- **Structured Logging**: JSON-formatted logs with timestamps
+- **Performance Metrics**: Request duration and success rates
+- **Error Tracking**: Detailed error logging with stack traces
+- **API Monitoring**: Full GitHub API call monitoring
+- **Configurable Log Levels**: Adjustable logging verbosity
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+## 📄 License
 
 MIT
+
+## 🙏 Acknowledgments
+
+- [Model Context Protocol](https://modelcontextprotocol.io/) for the MCP specification
+- [Octokit](https://github.com/octokit/octokit.js) for GitHub API integration
+- [Zod](https://zod.dev/) for runtime type validation
+- [TypeScript](https://www.typescriptlang.org/) for type safety
