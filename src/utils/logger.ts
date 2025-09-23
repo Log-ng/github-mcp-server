@@ -55,7 +55,6 @@ class Logger {
     }
   }
 
-  // GitHub API specific logging
   apiRequest(method: string, url: string, params?: any): void {
     this.debug(`GitHub API Request: ${method} ${url}`, { params });
   }
@@ -72,7 +71,6 @@ class Logger {
     }
   }
 
-  // Handler specific logging
   handlerStart(handlerName: string, args: any): void {
     this.debug(`Handler started: ${handlerName}`, { args });
   }

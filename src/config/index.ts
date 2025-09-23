@@ -3,7 +3,6 @@ import { z } from "zod";
 
 dotenv.config();
 
-// Configuration schema
 const ConfigSchema = z.object({
   GITHUB_TOKEN: z.string().min(1, "GITHUB_TOKEN is required"),
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
@@ -14,7 +13,6 @@ const ConfigSchema = z.object({
   RETRY_DELAY_MS: z.number().min(100).default(1000),
 });
 
-// Validate and parse configuration
 const parseConfig = () => {
   try {
     return ConfigSchema.parse({
@@ -42,7 +40,6 @@ const parseConfig = () => {
 
 export const config = parseConfig();
 
-// Server configuration
 export const serverConfig = {
   name: "github-mcp-server",
   version: "1.0.0",
@@ -51,7 +48,6 @@ export const serverConfig = {
   },
 } as const;
 
-// GitHub API configuration
 export const githubConfig = {
   auth: config.GITHUB_TOKEN,
   userAgent: `${serverConfig.name}/${serverConfig.version}`,
@@ -59,13 +55,11 @@ export const githubConfig = {
   retries: config.MAX_RETRIES,
 } as const;
 
-// Rate limiting configuration
 export const rateLimitConfig = {
   maxRequests: config.RATE_LIMIT_MAX_REQUESTS,
   windowMs: config.RATE_LIMIT_WINDOW_MS,
 } as const;
 
-// Retry configuration
 export const retryConfig = {
   maxRetries: config.MAX_RETRIES,
   delayMs: config.RETRY_DELAY_MS,
