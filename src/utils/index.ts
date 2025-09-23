@@ -79,7 +79,6 @@ export const createRateLimitHandler = (maxRequests: number = 100, windowMs: numb
     const now = Date.now();
     const windowStart = now - windowMs;
     
-    // Remove old requests
     while (requests.length > 0 && requests[0] < windowStart) {
       requests.shift();
     }
