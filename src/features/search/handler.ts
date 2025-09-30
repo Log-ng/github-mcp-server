@@ -1,23 +1,8 @@
-import { SearchReposParamsSchema, SearchIssuesParamsSchema } from "../schemas/index.js";
-import { searchRepos, searchIssues } from "../services/index.js";
+import { SearchReposParamsSchema, SearchIssuesParamsSchema } from "./schema.js";
+import { searchRepos, searchIssues } from "./service.js";
+import { SearchReposArgs, SearchIssuesArgs } from "./service.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
-
-export interface SearchReposArgs {
-  q: string;
-  sort?: "stars" | "forks" | "help-wanted-issues" | "updated";
-  order?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}
-
-export interface SearchIssuesArgs {
-  q: string;
-  sort?: "comments" | "reactions" | "reactions-+1" | "reactions--1" | "reactions-smile" | "reactions-thinking_face" | "reactions-heart" | "reactions-tada" | "interactions" | "created" | "updated";
-  order?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}
 
 export const searchHandlers: Record<string, HandlerFunction> = {
   search_repos: async (args: unknown) => {

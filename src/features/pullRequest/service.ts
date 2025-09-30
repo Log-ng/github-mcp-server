@@ -1,5 +1,32 @@
-import { octokit } from "./common.js";
-import { CreatePullRequestArgs, ListPullRequestsArgs, GetPullRequestArgs } from "../handlers/pullRequest.js";
+import { octokit } from "../../shared/service.js";
+
+export interface CreatePullRequestArgs {
+  owner: string;
+  repo: string;
+  title: string;
+  head: string;
+  base: string;
+  body?: string;
+  draft?: boolean;
+}
+
+export interface ListPullRequestsArgs {
+  owner: string;
+  repo: string;
+  state?: "open" | "closed" | "all";
+  head?: string;
+  base?: string;
+  sort?: "created" | "updated" | "popularity" | "long-running";
+  direction?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+
+export interface GetPullRequestArgs {
+  owner: string;
+  repo: string;
+  pull_number: number;
+}
 
 export const createPullRequest = async (params: CreatePullRequestArgs) => {
   try {

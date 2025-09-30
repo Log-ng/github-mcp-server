@@ -1,34 +1,9 @@
-import { CreateIssueParamsSchema, ListIssuesParamsSchema, GetIssueParamsSchema } from "../schemas/index.js";
-import { createIssue, listIssues, getIssue } from "../services/index.js";
-import { createSuccessResponse, handleError } from "../utils/index.js";
-import { HandlerFunction } from "../types/index.js";
-import { logger } from "../utils/logger.js";
-
-export interface CreateIssueArgs {
-  owner: string;
-  repo: string;
-  title: string;
-  body?: string;
-  labels?: string[];
-  assignees?: string[];
-}
-
-export interface ListIssuesArgs {
-  owner: string;
-  repo: string;
-  state?: "open" | "closed" | "all";
-  labels?: string;
-  sort?: "created" | "updated" | "comments";
-  direction?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}
-
-export interface GetIssueArgs {
-  owner: string;
-  repo: string;
-  issue_number: number;
-}
+import { CreateIssueParamsSchema, ListIssuesParamsSchema, GetIssueParamsSchema } from "./schema.js";
+import { createIssue, listIssues, getIssue } from "./service.js";
+import { createSuccessResponse, handleError } from "../../utils/index.js";
+import { HandlerFunction } from "../../types/index.js";
+import { logger } from "../../utils/logger.js";
+import { CreateIssueArgs, ListIssuesArgs, GetIssueArgs } from "./service.js";
 
 export const issueHandlers: Record<string, HandlerFunction> = {
   create_issue: async (args: unknown) => {

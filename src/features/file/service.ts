@@ -1,5 +1,21 @@
-import { octokit } from "./common.js";
-import { GetFileContentArgs, CreateOrUpdateFileArgs } from "../handlers/file.js";
+import { octokit } from "../../shared/service.js";
+
+export interface GetFileContentArgs {
+  owner: string;
+  repo: string;
+  path: string;
+  ref?: string;
+}
+
+export interface CreateOrUpdateFileArgs {
+  owner: string;
+  repo: string;
+  path: string;
+  message: string;
+  content: string;
+  branch?: string;
+  sha?: string;
+}
 
 export const getFileContent = async (params: GetFileContentArgs) => {
   try {
