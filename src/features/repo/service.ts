@@ -1,6 +1,5 @@
 import { octokit } from "../../shared";
-import { logger } from "../../utils";
-import { withRetry } from "../../utils";
+import { logger, withRetry } from "../../utils";
 import { retryConfig } from "../../config";
 
 export interface GetRepoInfoArgs {

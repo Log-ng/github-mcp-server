@@ -1,6 +1,5 @@
 import { SearchReposParamsSchema, SearchIssuesParamsSchema } from "./schema.js";
-import { searchRepos, searchIssues } from "./service.js";
-import { SearchReposArgs, SearchIssuesArgs } from "./service.js";
+import { searchRepos, searchIssues, SearchReposArgs, SearchIssuesArgs } from "./service.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
 
