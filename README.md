@@ -202,43 +202,68 @@ The `create_branch` tool allows you to create a new branch in a GitHub repositor
 
 ## 🏗️ Project Structure
 
+The project follows a **feature-based architecture** for better maintainability and scalability:
+
 ```
 src/
+├── features/         # Feature modules (feature-based architecture)
+│   ├── index.ts      # Aggregates all handlers and tool definitions
+│   ├── commit/       # Commit management feature
+│   │   ├── handler.ts    # MCP request handlers
+│   │   ├── schema.ts     # Zod validation schemas
+│   │   ├── service.ts    # GitHub API services & interfaces
+│   │   └── index.ts      # Feature exports
+│   ├── file/         # File management feature
+│   │   ├── handler.ts
+│   │   ├── schema.ts
+│   │   ├── service.ts
+│   │   └── index.ts
+│   ├── issue/        # Issue management feature
+│   │   ├── handler.ts
+│   │   ├── schema.ts
+│   │   ├── service.ts
+│   │   └── index.ts
+│   ├── pullRequest/  # Pull request management feature
+│   │   ├── handler.ts
+│   │   ├── schema.ts
+│   │   ├── service.ts
+│   │   └── index.ts
+│   ├── repo/         # Repository management feature
+│   │   ├── handler.ts
+│   │   ├── schema.ts
+│   │   ├── service.ts
+│   │   └── index.ts
+│   └── search/       # Search feature
+│       ├── handler.ts
+│       ├── schema.ts
+│       ├── service.ts
+│       └── index.ts
+├── shared/           # Shared utilities and components
+│   ├── index.ts      # Shared exports
+│   ├── schema.ts     # Common schemas (JsonRpc, etc.)
+│   └── service.ts    # Common services (Octokit setup)
+├── config/           # Configuration management
+│   └── index.ts      # Environment configuration
 ├── types/            # TypeScript type definitions
 │   └── index.ts      # Common types and interfaces
 ├── utils/            # Utility functions
-│   ├── index.ts      # Common utilities
+│   ├── index.ts      # Common utilities (error handling, etc.)
 │   └── logger.ts     # Logging system
-├── config/           # Configuration management
-│   └── index.ts      # Environment configuration
-├── schemas/          # Zod validation schemas
-│   ├── common.ts     # Common schemas
-│   ├── repo.ts       # Repository schemas
-│   ├── issue.ts      # Issue schemas
-│   ├── pullRequest.ts # Pull request schemas
-│   ├── commit.ts     # Commit schemas
-│   ├── file.ts       # File schemas
-│   ├── search.ts     # Search schemas
-│   └── index.ts      # Schema exports
-├── services/         # GitHub API services
-│   ├── common.ts     # Common Octokit setup
-│   ├── repo.ts       # Repository services
-│   ├── issue.ts      # Issue services
-│   ├── pullRequest.ts # Pull request services
-│   ├── commit.ts     # Commit services
-│   ├── file.ts       # File services
-│   ├── search.ts     # Search services
-│   └── index.ts      # Service exports
-├── handlers/         # MCP request handlers
-│   ├── repo.ts       # Repository handlers
-│   ├── issue.ts      # Issue handlers
-│   ├── pullRequest.ts # Pull request handlers
-│   ├── commit.ts     # Commit handlers
-│   ├── file.ts       # File handlers
-│   ├── search.ts     # Search handlers
-│   └── index.ts      # Handler exports
-└── index.ts          # MCP server implementation
+└── index.ts          # MCP server implementation (entry point)
 ```
+
+### Architecture Benefits
+
+**Feature-Based Organization:**
+- Each feature (commit, file, issue, etc.) is self-contained with its own handler, schema, and service
+- Easy to maintain, test, and extend individual features
+- Clear separation of concerns and responsibilities
+- Simple to add new features without affecting existing code
+
+**Shared Components:**
+- Common utilities and configurations are centralized in `shared/`
+- Consistent error handling and logging across all features
+- Reusable schemas and services
 
 ## 🔒 Security Features
 
