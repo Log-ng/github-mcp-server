@@ -1,5 +1,20 @@
-import { octokit } from "./common.js";
-import { SearchReposArgs, SearchIssuesArgs } from "../handlers/search.js";
+import { octokit } from "../../shared";
+
+export interface SearchReposArgs {
+  q: string;
+  sort?: "stars" | "forks" | "help-wanted-issues" | "updated";
+  order?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+
+export interface SearchIssuesArgs {
+  q: string;
+  sort?: "comments" | "reactions" | "reactions-+1" | "reactions--1" | "reactions-smile" | "reactions-thinking_face" | "reactions-heart" | "reactions-tada" | "interactions" | "created" | "updated";
+  order?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
 
 export const searchRepos = async (params: SearchReposArgs) => {
   try {

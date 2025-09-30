@@ -1,29 +1,8 @@
-import { GetRepoInfoParamsSchema, ListReposParamsSchema, CreateBranchParamsSchema } from "../schemas/index.js";
-import { getRepoInfo, listRepos, createBranch } from "../services/index.js";
-import { createSuccessResponse, handleError } from "../utils/index.js";
-import { HandlerFunction } from "../types/index.js";
-import { logger } from "../utils/logger.js";
-
-export interface GetRepoInfoArgs {
-  owner: string;
-  repo: string;
-}
-
-export interface ListReposArgs {
-  username?: string;
-  type?: "all" | "owner" | "public" | "private" | "member";
-  sort?: "created" | "updated" | "pushed" | "full_name";
-  direction?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}
-
-export interface CreateBranchArgs {
-  owner: string;
-  repo: string;
-  branch: string;
-  base_branch?: string;
-}
+import { GetRepoInfoParamsSchema, ListReposParamsSchema, CreateBranchParamsSchema } from "./schema.js";
+import { getRepoInfo, listRepos, createBranch } from "./service.js";
+import { createSuccessResponse, handleError, logger } from "../../utils";
+import { HandlerFunction } from "../../types";
+import { GetRepoInfoArgs, ListReposArgs, CreateBranchArgs } from "./service.js";
 
 export const repoHandlers: Record<string, HandlerFunction> = {
   get_repo_info: async (args: unknown) => {

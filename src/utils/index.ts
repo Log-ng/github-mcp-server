@@ -1,4 +1,6 @@
-import { HandlerResponse, AppError, ValidationError, GitHubApiError } from '../types/index.js';
+import { HandlerResponse, AppError, ValidationError, GitHubApiError } from '../types';
+
+export * from './logger.js';
 
 export const createSuccessResponse = (data: any): HandlerResponse => ({
   content: [

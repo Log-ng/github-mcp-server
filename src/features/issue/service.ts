@@ -1,5 +1,30 @@
-import { octokit } from "./common.js";
-import { CreateIssueArgs, ListIssuesArgs, GetIssueArgs } from "../handlers/issue.js";
+import { octokit } from "../../shared";
+
+export interface CreateIssueArgs {
+  owner: string;
+  repo: string;
+  title: string;
+  body?: string;
+  labels?: string[];
+  assignees?: string[];
+}
+
+export interface ListIssuesArgs {
+  owner: string;
+  repo: string;
+  state?: "open" | "closed" | "all";
+  labels?: string;
+  sort?: "created" | "updated" | "comments";
+  direction?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+
+export interface GetIssueArgs {
+  owner: string;
+  repo: string;
+  issue_number: number;
+}
 
 export const createIssue = async (params: CreateIssueArgs) => {
   try {

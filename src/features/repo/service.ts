@@ -1,8 +1,27 @@
-import { octokit } from "./common.js";
-import { ListReposArgs, CreateBranchArgs } from "../handlers/repo.js";
-import { logger } from "../utils/logger.js";
-import { withRetry } from "../utils/index.js";
-import { retryConfig } from "../config/index.js";
+import { octokit } from "../../shared";
+import { logger, withRetry } from "../../utils";
+import { retryConfig } from "../../config";
+
+export interface GetRepoInfoArgs {
+  owner: string;
+  repo: string;
+}
+
+export interface ListReposArgs {
+  username?: string;
+  type?: "all" | "owner" | "public" | "private" | "member";
+  sort?: "created" | "updated" | "pushed" | "full_name";
+  direction?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+
+export interface CreateBranchArgs {
+  owner: string;
+  repo: string;
+  branch: string;
+  base_branch?: string;
+}
 
 export const getRepoInfo = async (owner: string, repo: string) => {
   const startTime = Date.now();

@@ -1,25 +1,7 @@
-import { ListCommitsParamsSchema, GetCommitParamsSchema } from "../schemas/index.js";
-import { listCommits, getCommit } from "../services/index.js";
+import { ListCommitsParamsSchema, GetCommitParamsSchema } from "./schema.js";
+import { listCommits, getCommit, ListCommitsArgs, GetCommitArgs } from "./service.js";
 
 export type HandlerFunction = (args: unknown) => Promise<any>;
-
-export interface ListCommitsArgs {
-  owner: string;
-  repo: string;
-  sha?: string;
-  path?: string;
-  author?: string;
-  since?: string;
-  until?: string;
-  per_page?: number;
-  page?: number;
-}
-
-export interface GetCommitArgs {
-  owner: string;
-  repo: string;
-  ref: string;
-}
 
 export const commitHandlers: Record<string, HandlerFunction> = {
   list_commits: async (args: unknown) => {
