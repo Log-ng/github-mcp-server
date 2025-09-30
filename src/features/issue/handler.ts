@@ -1,7 +1,7 @@
 import { CreateIssueParamsSchema, ListIssuesParamsSchema, GetIssueParamsSchema } from "./schema.js";
 import { createIssue, listIssues, getIssue } from "./service.js";
-import { createSuccessResponse, handleError } from "../../utils/index.js";
-import { HandlerFunction } from "../../types/index.js";
+import { createSuccessResponse, handleError } from "../../utils";
+import { HandlerFunction } from "../../types";
 import { logger } from "../../utils/logger.js";
 import { CreateIssueArgs, ListIssuesArgs, GetIssueArgs } from "./service.js";
 

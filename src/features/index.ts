@@ -1,10 +1,10 @@
-import { repoHandlers, repoToolDefinitions } from "./repo/handler.js";
-import { HandlerFunction } from "../types/index.js";
-import { issueHandlers, issueToolDefinitions } from "./issue/handler.js";
-import { pullRequestHandlers, pullRequestToolDefinitions } from "./pullRequest/handler.js";
-import { commitHandlers, commitToolDefinitions } from "./commit/handler.js";
-import { fileHandlers, fileToolDefinitions } from "./file/handler.js";
-import { searchHandlers, searchToolDefinitions } from "./search/handler.js";
+import { repoHandlers, repoToolDefinitions } from "./repo";
+import { HandlerFunction } from "../types";
+import { issueHandlers, issueToolDefinitions } from "./issue";
+import { pullRequestHandlers, pullRequestToolDefinitions } from "./pullRequest";
+import { commitHandlers, commitToolDefinitions } from "./commit";
+import { fileHandlers, fileToolDefinitions } from "./file";
+import { searchHandlers, searchToolDefinitions } from "./search";
 
 export const allHandlers: Record<string, HandlerFunction> = {
   ...repoHandlers,

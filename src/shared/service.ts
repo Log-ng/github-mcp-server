@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { githubConfig } from "../config/index.js";
+import { githubConfig } from "../config";
 
 export const octokit: Octokit = new Octokit({
   auth: githubConfig.auth,

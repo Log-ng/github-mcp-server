@@ -1,7 +1,7 @@
-import { octokit } from "../../shared/service.js";
-import { logger } from "../../utils/logger.js";
-import { withRetry } from "../../utils/index.js";
-import { retryConfig } from "../../config/index.js";
+import { octokit } from "../../shared";
+import { logger } from "../../utils";
+import { withRetry } from "../../utils";
+import { retryConfig } from "../../config";
 
 export interface GetRepoInfoArgs {
   owner: string;

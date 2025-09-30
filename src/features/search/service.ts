@@ -1,4 +1,4 @@
-import { octokit } from "../../shared/service.js";
+import { octokit } from "../../shared";
 
 export interface SearchReposArgs {
   q: string;
