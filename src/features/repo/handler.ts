@@ -1,7 +1,7 @@
 import { GetRepoInfoParamsSchema, ListReposParamsSchema, CreateBranchParamsSchema } from "./schema.js";
 import { getRepoInfo, listRepos, createBranch } from "./service.js";
-import { createSuccessResponse, handleError, logger } from "../../utils";
-import { HandlerFunction } from "../../types";
+import { createSuccessResponse, handleError, logger } from "../../utils/index.js";
+import { HandlerFunction } from "../../types/index.js";
 import { GetRepoInfoArgs, ListReposArgs, CreateBranchArgs } from "./service.js";
 
 export const repoHandlers: Record<string, HandlerFunction> = {

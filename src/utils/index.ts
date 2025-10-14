@@ -1,4 +1,4 @@
-import { HandlerResponse, AppError, ValidationError, GitHubApiError } from '../types';
+import { HandlerResponse, AppError, ValidationError, GitHubApiError } from '../types/index.js';
 
 export * from './logger.js';
 

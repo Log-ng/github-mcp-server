@@ -1,4 +1,4 @@
-import { octokit } from "../../shared";
+import { octokit } from "../../shared/index.js";
 
 export interface GetFileContentArgs {
   owner: string;

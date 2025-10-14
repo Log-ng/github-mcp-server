@@ -5,9 +5,9 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
-import { allHandlers, allToolDefinitions } from "./features";
-import { serverConfig } from "./config";
-import { logger, handleError } from "./utils";
+import { allHandlers, allToolDefinitions } from "./features/index.js";
+import { serverConfig } from "./config/index.js";
+import { logger, handleError } from "./utils/index.js";
 
 const server = new Server(
   {
