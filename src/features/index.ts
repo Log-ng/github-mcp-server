@@ -5,6 +5,7 @@ import { pullRequestHandlers, pullRequestToolDefinitions } from "./pullRequest/i
 import { commitHandlers, commitToolDefinitions } from "./commit/index.js";
 import { fileHandlers, fileToolDefinitions } from "./file/index.js";
 import { searchHandlers, searchToolDefinitions } from "./search/index.js";
+import { gitHandlers, gitToolDefinitions } from "./git/index.js";
 
 export const allHandlers: Record<string, HandlerFunction> = {
   ...repoHandlers,
@@ -13,6 +14,7 @@ export const allHandlers: Record<string, HandlerFunction> = {
   ...commitHandlers,
   ...fileHandlers,
   ...searchHandlers,
+  ...gitHandlers,
 };
 
 export const allToolDefinitions = [
@@ -22,4 +24,5 @@ export const allToolDefinitions = [
   ...commitToolDefinitions,
   ...fileToolDefinitions,
   ...searchToolDefinitions,
+  ...gitToolDefinitions,
 ];
