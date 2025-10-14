@@ -163,6 +163,8 @@ The server provides the following MCP tools:
 - `create_or_update_file` - Create or update files
 - `search_repos` - Search repositories
 - `search_issues` - Search issues and pull requests
+- `compare_branches` - Compare two branches and show differences
+- `merge_branches` - Merge one branch into another
 
 ## 📝 Tool Examples
 
@@ -200,6 +202,112 @@ The `create_branch` tool allows you to create a new branch in a GitHub repositor
 }
 ```
 
+### Git Operations Tools
+
+#### Compare Branches Tool
+
+The `compare_branches` tool allows you to compare two branches and analyze their differences:
+
+**Parameters:**
+- `owner` (required): Repository owner (username or organization)
+- `repo` (required): Repository name
+- `base` (required): Base branch name
+- `head` (required): Head branch name to compare against base
+
+**Example usage:**
+```json
+{
+  "name": "compare_branches",
+  "arguments": {
+    "owner": "octocat",
+    "repo": "Hello-World",
+    "base": "main",
+    "head": "feature/new-feature"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "status": "ahead",
+  "ahead_by": 3,
+  "behind_by": 0,
+  "total_commits": 3,
+  "base_commit": {
+    "sha": "abc123...",
+    "message": "Latest commit on main",
+    "author": "octocat",
+    "date": "2024-01-15T10:00:00Z"
+  },
+  "commits": [
+    {
+      "sha": "def456...",
+      "message": "Add new feature",
+      "author": "developer",
+      "date": "2024-01-15T11:00:00Z",
+      "url": "https://github.com/octocat/Hello-World/commit/def456..."
+    }
+  ],
+  "files": [
+    {
+      "filename": "src/feature.js",
+      "status": "added",
+      "additions": 50,
+      "deletions": 0,
+      "changes": 50
+    }
+  ]
+}
+```
+
+#### Merge Branches Tool
+
+The `merge_branches` tool allows you to merge one branch into another programmatically:
+
+**Parameters:**
+- `owner` (required): Repository owner (username or organization)
+- `repo` (required): Repository name
+- `base` (required): Base branch to merge into
+- `head` (required): Head branch to merge from
+- `commit_message` (optional): Custom commit message for the merge
+
+**Example usage:**
+```json
+{
+  "name": "merge_branches",
+  "arguments": {
+    "owner": "octocat",
+    "repo": "Hello-World",
+    "base": "main",
+    "head": "feature/new-feature",
+    "commit_message": "feat: Add new feature"
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "sha": "ghi789...",
+  "merged": true,
+  "message": "feat: Add new feature",
+  "author": "octocat",
+  "date": "2024-01-15T12:00:00Z",
+  "url": "https://github.com/octocat/Hello-World/commit/ghi789...",
+  "parents": [
+    {
+      "sha": "abc123...",
+      "url": "https://github.com/octocat/Hello-World/commit/abc123..."
+    },
+    {
+      "sha": "def456...", 
+      "url": "https://github.com/octocat/Hello-World/commit/def456..."
+    }
+  ]
+}
+```
+
 ## 🏗️ Project Structure
 
 The project follows a **feature-based architecture** for better maintainability and scalability:
@@ -214,6 +322,11 @@ src/
 │   │   ├── service.ts    # GitHub API services & interfaces
 │   │   └── index.ts      # Feature exports
 │   ├── file/         # File management feature
+│   │   ├── handler.ts
+│   │   ├── schema.ts
+│   │   ├── service.ts
+│   │   └── index.ts
+│   ├── git/          # Git operations feature
 │   │   ├── handler.ts
 │   │   ├── schema.ts
 │   │   ├── service.ts
